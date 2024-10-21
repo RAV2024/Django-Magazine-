@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>My Shop</title>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <div class="logo">
+                <a href="/">
+                    <img src="{% static "images/logo.png" %}" alt="Логотип">
+                </a>
+            </div>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'brands' %}">Бренды</a></li>
+                <li><a href="{% url 'categories' %}">Категории</a></li>
+                <li><a href="{% url 'products' %}">Товары</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <a href="/">
+                    <img src="{% static 'images/logo.png' %}" alt="Логотип">
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; Poizon 2024. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

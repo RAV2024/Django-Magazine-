@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Бренды{% endblock %}
+
+{% block content %}
+
+<div class="brand">
+    <div class="brand-container">
+    {% for brand in brands %}
+        <div class="brand-item">
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+            <h3>{{ brand.name }}</h3>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
