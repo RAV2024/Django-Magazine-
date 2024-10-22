@@ -12,7 +12,6 @@ class Brand(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subcategories')
     created_at = models.DateTimeField(auto_now_add=True)
 

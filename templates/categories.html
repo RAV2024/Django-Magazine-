@@ -3,6 +3,25 @@
 {% block title %}Категории{% endblock %}
 
 {% block content %}
-
-
+    <div class="categories-container">
+        <h1 class="categories-title">Категории</h1>
+        <ul class="categories-list">
+            {% for category in categories %}
+                <li class="category-item">
+                    <div class="category-header">
+                        <h2>{{ category.name }}</h2>
+                    </div>
+                    {% if category.subcategories.exists %}
+                        <div class="subcategories-container">
+                            <ul class="subcategories-list">
+                                {% for subcategory in category.subcategories.all %}
+                                    <li class="subcategory-item">{{ subcategory.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

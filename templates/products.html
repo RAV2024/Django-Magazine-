@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Товары{% endblock %}
 
 {% block content %}
-<h2>Товары</h2>
-<p>Список доступных товаров.</p>
+
+
+
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-item">
+            {% if product.images.all %}
+                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/image.jpg' %}" alt="Нет изображения">
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+        </div>
+    {% empty %}
+        <p>Нет доступных товаров.</p>
+    {% endfor %}
+</div>
+
 {% endblock %}
