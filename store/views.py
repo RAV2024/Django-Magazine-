@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Brand
+from .models import Category
+from .models import Product
 
 
 def base(request):
@@ -16,8 +18,12 @@ def brands(request):
 
 
 def categories(request):
-    return render(request, 'categories.html')
+    categories = Category.objects.filter(parent=None)
+    return render(request, 'categories.html', {'categories': categories})
 
 
 def products(request):
-    return render(request, 'products.html')
+    products = Product.objects.all()
+    return render(request, 'products.html', {'products': products})
+
+
