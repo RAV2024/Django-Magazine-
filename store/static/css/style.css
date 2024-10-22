@@ -182,10 +182,10 @@ main{
 .categories-container {
     max-width: 960px;
     margin: 0 auto;
-    background: white; /* Цвет фона контейнера */
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень контейнера */
-    padding: 20px; /* Отступы внутри контейнера */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .categories-title {
@@ -199,16 +199,16 @@ main{
 }
 
 .category-item {
-    border: 1px solid #ddd; /* Рамка вокруг категории */
-    border-radius: 5px; /* Скругленные углы для элемента категории */
-    margin: 10px 0; /* Отступ между категориями */
-    padding: 15px; /* Отступ внутри элемента категории */
-    background: #fafafa; /* Цвет фона для категорий */
-    transition: background 0.3s; /* Плавный переход фона */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 15px;
+    background: #fafafa;
+    transition: background 0.3s;
 }
 
 .category-item:hover {
-    background: #e0e0e0; /* Цвет фона при наведении */
+    background: #e0e0e0;
 }
 
 .category-header h2 {
