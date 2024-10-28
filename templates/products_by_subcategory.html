@@ -5,6 +5,20 @@
 
 {% block content %}
 
+<div class="sidebar">
+    <h3>Цена</h3>
+    <form method="GET" action="{% url 'products_by_subcategory' subcategory.id %}">
+        <label for="min_price"></label>
+        <input type="number" id="min_price" name="min_price" placeholder="Цена от" value="{{ request.GET.min_price|default:'' }}">
+
+        <label for="max_price"></label>
+        <input type="number" id="max_price" name="max_price" placeholder="Цена до" value="{{ request.GET.max_price|default:'' }}">
+
+        <button type="submit">Применить фильтр</button>
+    </form>
+</div>
+
+
 <div class="product-grid">
     {% for product in products %}
         <div class="product-item">

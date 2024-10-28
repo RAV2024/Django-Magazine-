@@ -28,7 +28,20 @@ def categories(request):
 def products_by_subcategory(request, subcategory_id):
     subcategory = get_object_or_404(Category, id=subcategory_id)
     products = Product.objects.filter(category=subcategory)
+
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    if max_price:
+        products = products.filter(price__lte=max_price)
+
+
     return render(request, 'products_by_subcategory.html', {'subcategory': subcategory, 'products': products})
+
+
+
 
 
 def products(request):

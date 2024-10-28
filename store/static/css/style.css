@@ -229,7 +229,7 @@ nav a:hover {
     padding: 10px 20px;
     font-size: 1em;
     text-decoration: none;
-    color: white; /* Цвет текста */
+    color: white;
     background-color: #2c3e50;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -315,6 +315,7 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
+    margin-top: 30px;
 }
 
 .product-item {
@@ -326,9 +327,29 @@ nav a:hover {
     height: auto;
 }
 
+.sidebar {
+    float: left;
+    width: 20%;
+    margin-right: 10px;
+    margin-left: 10px;
+}
 
+.sidebar form button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+    width: 75%;
+    font-size: 1em;
+    text-decoration: none;
+    color: white;
+    background-color: #2c3e50;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
 
-
+.sidebar form button:hover {
+    background-color: #3a8a8f;
+}
 
 
 footer {
