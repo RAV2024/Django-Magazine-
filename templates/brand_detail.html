@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ brand.name }}{% endblock %}
+
+{% block content %}
+<div class="brand-details">
+    <h2>{{ brand.name }}</h2>
+    <img class="brand-logo" src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+    <p class="brand-description">{{ brand.description }}</p>
+    <a class="back-link" href="{% url 'brands' %}">Назад к списку брендов</a>
+</div>
+{% endblock %}

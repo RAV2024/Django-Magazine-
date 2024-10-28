@@ -15,7 +15,9 @@
                         <div class="subcategories-container">
                             <ul class="subcategories-list">
                                 {% for subcategory in category.subcategories.all %}
-                                    <li class="subcategory-item">{{ subcategory.name }}</li>
+                                    <li class="subcategory-item">
+                                        <a href="{% url 'products_by_subcategory' subcategory.id %}">{{ subcategory.name }}</a>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>

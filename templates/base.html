@@ -9,36 +9,38 @@
     <title>My Shop</title>
 </head>
 <body>
-    <header class="header">
-        <nav>
-            <div class="logo">
-                <a href="/">
-                    <img src="{% static "images/logo.png" %}" alt="Логотип">
-                </a>
-            </div>
-            <ul>
-                <li><a href="{% url 'home' %}">Главная</a></li>
-                <li><a href="{% url 'brands' %}">Бренды</a></li>
-                <li><a href="{% url 'categories' %}">Категории</a></li>
-                <li><a href="{% url 'products' %}">Товары</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="wrapper">
+        <header class="header">
+            <nav>
+                <div class="logo">
+                    <a href="/">
+                        <img src="{% static "images/logo.png" %}" alt="Логотип">
+                    </a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    <li><a href="{% url 'brands' %}">Бренды</a></li>
+                    <li><a href="{% url 'categories' %}">Категории</a></li>
+                    <li><a href="{% url 'products' %}">Товары</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-logo">
-                <a href="/">
-                    <img src="{% static 'images/logo.svg' %}" alt="Логотип">
-                </a>
+        <footer>
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <a href="/">
+                        <img src="{% static 'images/logo.svg' %}" alt="Логотип">
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; Poizon 2024. Все права защищены.</p>
-        </div>
-    </footer>
+            <div class="footer-bottom">
+                <p>&copy; Poizon 2024. Все права защищены.</p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

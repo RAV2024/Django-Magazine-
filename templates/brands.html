@@ -8,8 +8,10 @@
     <div class="brand-container">
     {% for brand in brands %}
         <div class="brand-item">
-            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
-            <h3>{{ brand.name }}</h3>
+             <a class="brand-link" href="{% url 'brand_detail' brand.id %}">
+                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+                <h3>{{ brand.name }}</h3>
+            </a>
         </div>
     {% endfor %}
     </div>
