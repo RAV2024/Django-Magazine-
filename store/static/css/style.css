@@ -74,7 +74,7 @@ nav a:hover {
     color:  #3a8a8f;
 }
 
-
+/* для about */
 
 .home {
     text-align: center;
@@ -108,6 +108,8 @@ nav a:hover {
     max-width: 800px;
     margin: 0 auto;
 }
+
+/* для картинок about!!! */
 
 .categories {
     display: flex;
@@ -154,7 +156,7 @@ nav a:hover {
     color: #ffffff;
     font-weight: bold;
     text-transform: uppercase;
-     margin: 10px;
+    margin: 10px;
 }
 
 .text::after {
@@ -167,6 +169,8 @@ nav a:hover {
     height: 4px;
     background-color: white;
 }
+
+/* brand */
 
 .brand{
     background-color: white;
@@ -240,7 +244,7 @@ nav a:hover {
 }
 
 
-
+/* для категории */
 
 .categories-container {
     max-width: 960px;
@@ -315,22 +319,30 @@ nav a:hover {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
-    margin-top: 30px;
+    margin: 10px 10px 10px 0;
 }
 
 .product-item {
     text-align: center;
+    position: relative;
 }
 
 .product-item img {
     max-width: 80%;
     height: auto;
+    cursor: pointer;
+}
+
+.product-price {
+    font-size: 1.2em;
+    color: #000000;
+    margin-top: 5px;
+    margin-bottom: 0;
 }
 
 .sidebar {
     float: left;
     width: 20%;
-    margin-right: 10px;
     margin-left: 10px;
 }
 
@@ -375,6 +387,182 @@ footer {
     border-top: 1px solid #444;
     padding-top: 10px;
 }
+
+/* для добавления брендов */
+
+.container-new-brand {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus,
+textarea:focus {
+    border-color: #3a8a8f;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3a8a8f;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #225255;
+    transform: translateY(-1px);
+}
+
+/* для удаления брендов */
+
+.wrapper-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container-delete-brand {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    color: #e74c3c;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.confirmation-message {
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #555;
+}
+
+.delete-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+.cancel-link {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #3498db;
+    transition: text-decoration 0.3s;
+}
+
+.cancel-link:hover {
+    text-decoration: underline;
+}
+
+/* для редактир брендов */
+
+.container-edit-brand {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.edit-brand-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
 
 
 

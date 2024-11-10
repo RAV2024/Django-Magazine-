@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление бренда{% endblock %}
+
+{% block content %}
+<div class="wrapper-delete">
+    <div class="container-delete-brand">
+        <h1 class="title">Удаление бренда: {{ brand.name }}</h1>
+        <p class="confirmation-message">Вы уверены, что хотите удалить этот бренд?</p>
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">Удалить</button>
+            <a class="cancel-link" href="{% url 'brands' %}">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

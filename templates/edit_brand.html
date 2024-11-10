@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Редактировать бренд{% endblock %}
+{% block content %}
+
+<div class="container-edit-brand">
+    <h1 class="heading">Редактировать бренд: {{ brand.name }}</h1>
+
+    <form method="post" enctype="multipart/form-data" class="edit-brand-form" id="edit-brand-form">
+        {% csrf_token %}
+        <div class="form-field">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+        </div>
+        <div class="form-field">
+            <label for="{{ form.logo.id_for_label }}">{{ form.logo.label }}</label>
+            {{ form.logo }}
+        </div>
+        <div class="form-field">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+        </div>
+        <button type="submit" class="submit-button">Сохранить</button>
+    </form>
+
+    <a href="{% url 'brands' %}" class="back-link">Назад к брендам</a>
+</div>
+
+{% endblock %}

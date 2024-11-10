@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Добавить новый бренд{% endblock %}
+{% block content %}
+
+<div class="container-new-brand">
+    <h1 class="heading">Добавить новый бренд</h1>
+
+    <form method="post" enctype="multipart/form-data" class="new-brand-form" id="new-brand-form">
+        {% csrf_token %}
+        <div class="form-field">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+        </div>
+        <div class="form-field">
+            <label for="{{ form.logo.id_for_label }}">{{ form.logo.label }}</label>
+            {{ form.logo }}
+        </div>
+        <div class="form-field">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+        </div>
+        <button type="submit" class="submit-button">Сохранить</button>
+    </form>
+
+    <a href="{% url 'brands' %}" class="back-link">Назад к брендам</a>
+</div>
+
+{% endblock %}

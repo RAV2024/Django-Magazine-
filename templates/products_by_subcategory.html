@@ -25,8 +25,9 @@
             {% if product.images.all %}
                 <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
             {% else %}
-                <img src="{% static 'images/image.jpg' %}" alt="Нет изображения">
+                <img src="{% static 'images/image.png' %}" alt="Нет изображения">
             {% endif %}
+            <p class="product-price">{{ product.price|floatformat:0}} ₽</p>
             <h3>{{ product.name }}</h3>
         </div>
     {% empty %}
