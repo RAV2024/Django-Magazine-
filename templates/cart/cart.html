@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Корзина</h1>
+{% if cart and cart.items.count > 0 %}
+    <ul>
+        {% for item in cart.items.all %}
+            <li>
+                {{ item.product.name }} - {{ item.size|default:"Без размера" }} - {{ item.quantity }} шт.
+            </li>
+        {% endfor %}
+    </ul>
+    <p>Итого: {{ cart.items.all|length }} товаров</p>
+{% else %}
+    <p>Ваша корзина пуста.</p>
+{% endif %}
+{% endblock %}

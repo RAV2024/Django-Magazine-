@@ -2,9 +2,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from .views import register, user_login
+from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
+
     path('', views.home, name='home'),
 
     path('brands/', views.brands, name='brands'),
@@ -17,6 +21,13 @@ urlpatterns = [
     path('categories/<int:subcategory_id>/', views.products_by_subcategory, name='products_by_subcategory'),
 
     path('products/', views.products, name='products'),
+    path('products/<int:product_id>/', views.product_detail, name='product_detail'),
+
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+
+
 ]
 
 if settings.DEBUG:

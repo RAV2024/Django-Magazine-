@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container-reg">
+    <h2 class="heads">Регистрация</h2>
+    <form method="post" class="registration-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Имя пользователя</label>
+            {{ form.username }}
+            {% for error in form.username.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Электронная почта</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}" class="form-label">Пароль</label>
+            {{ form.password1 }}
+            {% for error in form.password1.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}" class="form-label">Подтвердите пароль</label>
+            {{ form.password2 }}
+            {% for error in form.password2.errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-submit">Зарегистрироваться</button>
+    </form>
+</div>
+{% endblock %}

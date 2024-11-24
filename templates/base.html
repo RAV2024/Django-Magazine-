@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon-32x32.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>My Shop</title>
 </head>
 <body>
@@ -24,11 +26,31 @@
                         <img src="{% static "images/logo.png" %}" alt="Логотип">
                     </a>
                 </div>
-                <ul>
+                <ul class="main-nav">
                     <li><a href="{% url 'home' %}">Главная</a></li>
                     <li><a href="{% url 'brands' %}">Бренды</a></li>
                     <li><a href="{% url 'categories' %}">Категории</a></li>
                     <li><a href="{% url 'products' %}">Товары</a></li>
+                </ul>
+                <ul class="auth-nav">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'logout' %}" title="Выйти">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти ({{ user.username }})
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}" title="Войти">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i> Войти
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'register' %}" title="Регистрация">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i> Регистрация
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
