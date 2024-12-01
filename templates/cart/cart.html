@@ -1,16 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <h1>Корзина</h1>
-{% if cart and cart.items.count > 0 %}
-    <ul>
+<div class="cart-container">
+    {% if cart and cart.items.count > 0 %}
+    <ul class="cart-items">
         {% for item in cart.items.all %}
-            <li>
-                {{ item.product.name }} - {{ item.size|default:"Без размера" }} - {{ item.quantity }} шт.
+            <li class="cart-item">
+                <div class="cart-item-content">
+                    <div class="cart-item-image">
+                        {% if item.product.images.first %}
+                            <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}">
+                        {% else %}
+                            <img src="{% static '/images/image.png' %}" alt="Нет изображения">
+                        {% endif %}
+                    </div>
+                    <div class="cart-item-info">
+                        <h2>{{ item.product.name }}</h2>
+                        <p>Размер: {{ item.size|default:"Без размера" }}</p>
+                        <p>Количество: <span class="item-quantity" data-item-id="{{ item.id }}">{{ item.quantity }}</span> шт.</p>
+                        <p>Цена: {{ item.product.price|floatformat:0 }} руб.</p>
+                    </div>
+                </div>
+                <div class="line"></div>
+                <div class="quantity-control">
+                    <button class="decrement" data-item-id="{{ item.id }}">-</button>
+                    <input type="number" class="quantity" value="{{ item.quantity }}" min="1" data-item-id="{{ item.id }}">
+                    <button class="increment" data-item-id="{{ item.id }}">+</button>
+                </div>
             </li>
         {% endfor %}
     </ul>
-    <p>Итого: {{ cart.items.all|length }} товаров</p>
-{% else %}
-    <p>Ваша корзина пуста.</p>
-{% endif %}
+    <div class="cart-summary">
+        <p>Итого: <span class="total-amount">{{ total|floatformat:0 }}</span> руб.</p>
+        <button id="clear-cart-button" class="clear-cart-button">Очистить корзину</button>
+    </div>
+    {% else %}
+        <p>Ваша корзина пуста.</p>
+    {% endif %}
+</div>
+<script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}

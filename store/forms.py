@@ -78,3 +78,8 @@ class UserLoginForm(AuthenticationForm):
             raise forms.ValidationError("Пожалуйста, введите пароль.")
         return password
 
+
+class AddToCartForm(forms.Form):
+    size = forms.ChoiceField(choices=[], required=True)
+    quantity = forms.IntegerField(min_value=1, initial=1)
+

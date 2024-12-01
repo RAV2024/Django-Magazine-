@@ -1,8 +1,13 @@
+import json
+
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Brand, Category, Product
+from .models import Brand, Category, Product, Cart, CartItem
 from .forms import BrandForm, UserRegisterForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
 
 def base(request):
     return render(request, 'base.html')
@@ -139,3 +144,74 @@ def user_login(request):
     else:
         form = UserLoginForm()
     return render(request, 'auth/login.html', {'form': form})
+
+
+@login_required
+def cart(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    total = sum(item.product.price * item.quantity for item in cart.items.all())
+    total_items = sum(item.quantity for item in cart.items.all())
+    return render(request, 'cart/cart.html', {'cart': cart, 'total': total})
+
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'error': 'not_authenticated'})
+
+    size = request.POST.get('size')
+
+    if product.category.requires_size and not size:
+        return JsonResponse({'success': False, 'error': 'Необходимо выбрать размер.'})
+
+    quantity = int(request.POST.get('quantity', 1))
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size=size)
+
+    if created:
+        cart_item.quantity = quantity
+    else:
+        cart_item.quantity += quantity
+
+    cart_item.save()
+
+    total_items = sum(item.quantity for item in cart.items.all())
+
+    return JsonResponse({'success': True, 'cart_count': total_items})
+
+
+@login_required
+def clear_cart(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart.items.all().delete()
+    return JsonResponse({'success': True, 'cart_count': 0})
+
+
+@login_required
+def update_cart_item(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        change = data.get('change')
+
+        if change:
+            if change < 0:
+                # Если количество уменьшается
+                cart_item.quantity += change
+                if cart_item.quantity <= 0:
+                    cart_item.delete()  # Удалить товар, если количество <= 0
+                else:
+                    cart_item.save()
+            elif change > 0:
+                # Если количество увеличивается
+                cart_item.quantity += change
+                cart_item.save()
+
+        total_items = sum(item.quantity for item in cart_item.cart.items.all())
+        return JsonResponse({'success': True, 'cart_count': total_items})
+
+    return JsonResponse({'success': False})

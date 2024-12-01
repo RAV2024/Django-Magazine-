@@ -12,21 +12,29 @@
                 <img src="{% static 'images/image.png' %}" alt="Нет изображения">
             {% endif %}
         </div>
-<div class="product-info">
+
+        <div class="product-info">
             <h1>{{ product.name }}</h1>
             <p class="product-price">Цена: {{ product.price|floatformat:0}} ₽</p>
-            <div class="size-selection">
-                {% if sizes %}
-                    <h3>Выберите размер:</h3>
-                    <div class="size-options">
-                        {% for size in sizes %}
-                            <button type="button" class="size-button" onclick="selectSize(this)">{{ size }}</button>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <p size="Таблица размеров не требуется для данной категории."></p>
-                {% endif %}
-            </div>
+            <form id="add-to-cart-form" method="post" action="{% url 'add_to_cart' product.id %}" class="add-to-cart-form">
+                {% csrf_token %}
+                <div class="size-selection">
+                    {% if sizes %}
+                        <h3>Выберите размер:</h3>
+                        <select name="size" required class="size-select">
+                            <option value="">-- Выберите размер --</option>
+                            {% for size in sizes %}
+                                <option value="{{ size }}">{{ size }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <div class="quantity-selection">
+                    <label for="quantity">Количество:</label>
+                    <input type="number" name="quantity" min="1" value="1" class="quantity-input"/>
+                </div>
+                <button type="submit" class="add-to-cart-button">Добавить в корзину</button>
+            </form>
         </div>
     </div>
 
