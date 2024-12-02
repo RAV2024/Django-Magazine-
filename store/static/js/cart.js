@@ -37,7 +37,6 @@ function getCookie(name) {
 document.addEventListener('DOMContentLoaded', function () {
     const decrementButtons = document.querySelectorAll('.decrement');
     const incrementButtons = document.querySelectorAll('.increment');
-    const quantityInputs = document.querySelectorAll('.quantity');
 
     decrementButtons.forEach(button => {
         button.addEventListener('click', function () {
@@ -53,36 +52,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', function () {
-            const itemId = this.dataset.itemId;
-            const newQuantity = parseInt(this.value);
-            if (newQuantity > 0) {
-                updateCartItem(itemId, newQuantity); // передаем новый объем
-            } else {
-                alert("Количество не может быть меньше 1.");
-                location.reload(); // Или можете очистить поле
-            }
-        });
-    });
-
     function updateCartItem(itemId, change) {
         fetch(`/cart/update/${itemId}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'),
+                'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({ change: change })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                const quantityElement = document.querySelector(`.quantity[data-item-id="${itemId}"]`);
                 const itemQuantityElement = document.querySelector(`.item-quantity[data-item-id="${itemId}"]`);
-                const quantityInput = document.querySelector(`.quantity[data-item-id="${itemId}"]`);
+                const itemElement = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
                 const totalAmountElement = document.querySelector('.total-amount');
+                const cartCountElement = document.querySelector('.cart-count');
 
-                let previousQuantity = parseInt(quantityInput.value);
+                let previousQuantity = parseInt(quantityElement.textContent);
                 let newQuantity;
 
                 if (change === -1) {
@@ -93,30 +81,34 @@ document.addEventListener('DOMContentLoaded', function () {
                     newQuantity = change;
                 }
 
-                quantityInput.value = newQuantity;
-                itemQuantityElement.textContent = newQuantity;
+                if (newQuantity === 0) {
+                    itemElement.remove();
 
-                const itemPriceText = itemQuantityElement.closest('.cart-item-info').querySelector('p:nth-child(4)').innerText;
-                const itemPrice = parseFloat(itemPriceText.replace(' руб.', '').replace(/s/g, ''));
-                const currentTotalText = totalAmountElement.innerText;
-                const currentTotal = parseFloat(currentTotalText.replace(' руб.', '').replace(/s/g, ''));
-
-                // Проверка валидности
-                if (isNaN(itemPrice) || isNaN(currentTotal)) {
-                    console.error('Некорректные значения:', itemPrice, currentTotal);
-                    return; // Прекращаем выполнение
+                    if (document.querySelectorAll('.cart-item').length === 0) {
+                        document.querySelector('.cart-container').innerHTML = '<p>Ваша корзина пуста.</p>';
+                    }
+                } else {
+                    quantityElement.textContent = newQuantity;
+                    if (itemQuantityElement) {
+                        itemQuantityElement.textContent = newQuantity;
+                    }
                 }
 
-                const newTotal = currentTotal + (newQuantity - previousQuantity) * itemPrice;
+                const totalItems = parseInt(data.cart_count);
+                cartCountElement.textContent = totalItems;
 
-                totalAmountElement.textContent = newTotal.toFixed(0) + ' руб.';
+                const total = parseFloat(data.total);
+                if (!isNaN(total)) {
+                    totalAmountElement.textContent = total.toFixed(0);
+                } else {
+                    console.error('Invalid total value from server:', data.total);
+                }
             } else {
                 alert('Ошибка при обновлении товара.');
             }
         })
         .catch(error => console.error('Ошибка:', error));
     }
-
 
     function getCookie(name) {
         let cookieValue = null;
@@ -133,3 +125,4 @@ document.addEventListener('DOMContentLoaded', function () {
         return cookieValue;
     }
 });
+

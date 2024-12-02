@@ -591,12 +591,12 @@ nav a:hover {
 }
 
 .cart-item-content {
-    display: flex; /* Используем flexbox для горизонтального размещения */
-    align-items: center; /* Выравнивание по центру по вертикали */
+    display: flex;
+    align-items: center;
 }
 
 .cart-item-image {
-    margin-right: 20px; /* Отступ между изображением и текстом */
+    margin-right: 20px;
 }
 
 .cart-item-image img {
@@ -635,6 +635,192 @@ nav a:hover {
     margin: 10px 0;
 }
 
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 10px;
+}
+
+.quantity {
+    font-size: 15px;
+    margin: 0 15px;
+    color: #ccc;
+}
+
+.quantity-btn {
+    background-color: #ffffff;
+    color: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px 12px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.quantity-btn:hover {
+    background-color: #3a8a8f;
+}
+
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+.cart-header {
+    font-size: 15px;
+    margin-left: 40px;
+    padding-top: 30px;
+}
+
+.cart-header2 {
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+    padding-top: 30px;
+}
+
+.link-home, .link-cart {
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.cart-count {
+    font-weight: bold;
+}
+
+.cart-summary {
+    position: fixed;
+    width: 40%;
+    max-height: 130px;
+    max-width: 360px;
+    top: 220px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.summary-total {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.clear-cart-button {
+    background-color: #3a8a8f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-left: 20px;
+}
+
+.checkout-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color:  #3a8a8f;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+/* для оформления заказа */
+.checkout-header{
+    margin-left: 40px;
+}
+
+.checkout-header2{
+    margin-left: 40px;
+}
+
+.checkout-container {
+    display: flex;
+
+}
+
+.order-form-container{
+    width: 60%;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-left: 40px;
+}
+
+.summary-container {
+    max-width: 400px;
+    max-height: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-left: 20px;
+    margin-right: 40px;
+    overflow-y: auto; /
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.btn-primary {
+    align-self: center;
+    padding: 10px 20px;
+    background-color: #26cfc9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.summary-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.link-separator {
+    color: #ccc;
+}
+
+.order-form input[type="text"],
+.order-form input[type="email"],
+.order-form input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    cursor: text;
+}
+
+.order-form label {
+    margin-bottom: 5px;
+}
 
 
 footer {

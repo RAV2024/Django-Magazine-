@@ -192,26 +192,38 @@ def clear_cart(request):
 
 @login_required
 def update_cart_item(request, item_id):
-    cart_item = get_object_or_404(CartItem, id=item_id)
+    cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
 
     if request.method == 'POST':
         data = json.loads(request.body)
-        change = data.get('change')
+        change = data.get('change', 0)
 
         if change:
-            if change < 0:
-                # Если количество уменьшается
-                cart_item.quantity += change
-                if cart_item.quantity <= 0:
-                    cart_item.delete()  # Удалить товар, если количество <= 0
-                else:
-                    cart_item.save()
-            elif change > 0:
-                # Если количество увеличивается
-                cart_item.quantity += change
+            cart_item.quantity += change
+            if cart_item.quantity <= 0:
+                cart_item.delete()
+            else:
                 cart_item.save()
 
-        total_items = sum(item.quantity for item in cart_item.cart.items.all())
-        return JsonResponse({'success': True, 'cart_count': total_items})
+        cart = cart_item.cart
+        total = sum(item.product.price * item.quantity for item in cart.items.all())
+        total_items = sum(item.quantity for item in cart.items.all())
+
+        return JsonResponse({'success': True, 'cart_count': total_items, 'total': total})
 
     return JsonResponse({'success': False})
+
+
+@login_required
+def checkout(request):
+    cart = get_object_or_404(Cart, user=request.user)  # Получаем корзину пользователя
+    total = sum(item.product.price * item.quantity for item in cart.items.all())  # Общая сумма заказа
+
+    if request.method == 'POST':
+
+
+        cart.items.all().delete()
+        messages.success(request, 'Заказ успешно оформлен!')
+        return redirect('home')
+
+    return render(request, 'checkout/checkout.html', {'cart': cart, 'total': total})

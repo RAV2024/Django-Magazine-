@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>Корзина</h1>
+<div class="cart-header">
+    <a href="{% url 'home' %}" class="link-home">Главная </a>
+    <span class="link-separator">—</span>
+    Корзина
+</div>
+<div class="cart-header2">
+    <h1>Корзина (<span class="cart-count">{{ cart_count }}</span>)</h1>
+    <button id="clear-cart-button" class="clear-cart-button">Очистить корзину</button>
+</div>
 <div class="cart-container">
     {% if cart and cart.items.count > 0 %}
     <ul class="cart-items">
         {% for item in cart.items.all %}
-            <li class="cart-item">
+            <li class="cart-item" data-item-id="{{ item.id }}">
                 <div class="cart-item-content">
                     <div class="cart-item-image">
                         {% if item.product.images.first %}
@@ -24,16 +32,16 @@
                 </div>
                 <div class="line"></div>
                 <div class="quantity-control">
-                    <button class="decrement" data-item-id="{{ item.id }}">-</button>
-                    <input type="number" class="quantity" value="{{ item.quantity }}" min="1" data-item-id="{{ item.id }}">
-                    <button class="increment" data-item-id="{{ item.id }}">+</button>
+                    <button class="quantity-btn decrement" data-item-id="{{ item.id }}">-</button>
+                    <span class="quantity" data-item-id="{{ item.id }}">{{ item.quantity }}</span>
+                    <button class="quantity-btn increment" data-item-id="{{ item.id }}">+</button>
                 </div>
             </li>
         {% endfor %}
     </ul>
     <div class="cart-summary">
-        <p>Итого: <span class="total-amount">{{ total|floatformat:0 }}</span> руб.</p>
-        <button id="clear-cart-button" class="clear-cart-button">Очистить корзину</button>
+        <p class="summary-total">Итого: <span class="total-amount">{{ total|floatformat:0 }}</span> руб.</p>
+        <a href="{% url 'checkout' %}" class="checkout-button btn btn-primary">Оформить заказ</a>
     </div>
     {% else %}
         <p>Ваша корзина пуста.</p>

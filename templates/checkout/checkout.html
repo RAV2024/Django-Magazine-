@@ -1,0 +1,112 @@
+html{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="checkout-header">
+    <a href="{% url 'home' %}" class="link-home">Главная</a>
+    <span class="link-separator">—</span>
+    <a href="{% url 'cart' %}" class="link-cart">Корзина</a>
+    <span class="link-separator">—</span>
+    Оформление заказа
+</div>
+<div class="checkout-header2">
+    <h2>Оформление заказа</h2>
+</div>
+
+{% if cart.items.count > 0 %}
+
+    <div class="checkout-container">
+        <div class="order-form-container">
+            <form method="post" class="order-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="delivery_address">Куда доставить:</label>
+                    <input type="text" id="delivery_address" name="delivery_address" required class="form-control" placeholder="Населенный пункт" maxlength="255">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="recepient">Кто заберет заказ:</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="last_name" name="last_name" required class="form-control" placeholder="Фамилия получателя" maxlength="50">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="first_name" name="first_name" required class="form-control" placeholder="Имя получателя" maxlength="50">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="Отчество получателя" maxlength="50">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required class="form-control" placeholder="E-mail" maxlength="255">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="phone" name="phone" required class="form-control" placeholder="Телефон" maxlength="20">
+                    <div class="error-message" style="color:red; display:none;">Это обязательное поле</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment">Оплата</label>
+                    <div>
+                        <input type="radio" id="payment_card" name="payment_method" value="card" checked>
+                        <label for="payment_card">Картой</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="summary-container">
+            <h3>Общее количество товаров: <span id="total-items">{{ cart_count }}</span> товаров</h3>
+            <ul>
+                {% for item in cart.items.all %}
+                    <li>{{ item.product.name }} - {{ item.product.price|floatformat:0 }}₽ за шт. - ({{item.quantity}})</li>
+                {% endfor %}
+            </ul>
+            <h3>Итого: {{ total|floatformat:0 }}₽</h3>
+            <button type="submit" class="btn-primary" id="submitBtnSummary">Подтвердить заказ</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#phone').inputmask({
+                mask: "+7 (999) 999-99-99",
+                placeholder: " ",
+                showMaskOnHover: false
+            });
+
+            // Проверка обязательных полей при отправке формы
+            $('.order-form').on('submit', function(event) {
+                let allFilled = true;
+                $('input[required]').each(function() {
+                    if ($(this).val() === "") {
+                        allFilled = false;
+                        $(this).next('.error-message').show(); // Показываем сообщение об ошибке
+                    } else {
+                        $(this).next('.error-message').hide(); // Скрываем сообщение об ошибке
+                    }
+                });
+
+                if (!allFilled) {
+                    event.preventDefault(); // Отменяем отправку формы, если не все поля заполнены
+                }
+            });
+
+            // Скрытие сообщения при заполнении поля
+            $('input').on('input', function() {
+                $(this).next('.error-message').hide(); // Скрываем сообщение об ошибке при вводе
+            });
+        });
+    </script>
+{% else %}
+    <p>Ваша корзина пуста.</p>
+    <a href="{% url 'products' %}">Перейти к покупкам</a>
+{% endif %}
+{% endblock %}
