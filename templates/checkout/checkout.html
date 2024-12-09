@@ -68,7 +68,7 @@ html{% extends 'base.html' %}
                 {% endfor %}
             </ul>
             <h3>Итого: {{ total|floatformat:0 }}₽</h3>
-            <button type="submit" class="btn-primary" id="submitBtnSummary">Подтвердить заказ</button>
+            <button type="button" class="btn-primary" id="submitBtnSummary" onclick="window.location.href='{% url 'payment' %}'">Подтвердить заказ</button>
         </div>
     </div>
 
@@ -82,26 +82,24 @@ html{% extends 'base.html' %}
                 showMaskOnHover: false
             });
 
-            // Проверка обязательных полей при отправке формы
             $('.order-form').on('submit', function(event) {
                 let allFilled = true;
                 $('input[required]').each(function() {
                     if ($(this).val() === "") {
                         allFilled = false;
-                        $(this).next('.error-message').show(); // Показываем сообщение об ошибке
+                        $(this).next('.error-message').show();
                     } else {
-                        $(this).next('.error-message').hide(); // Скрываем сообщение об ошибке
+                        $(this).next('.error-message').hide();
                     }
                 });
 
                 if (!allFilled) {
-                    event.preventDefault(); // Отменяем отправку формы, если не все поля заполнены
+                    event.preventDefault();
                 }
             });
 
-            // Скрытие сообщения при заполнении поля
             $('input').on('input', function() {
-                $(this).next('.error-message').hide(); // Скрываем сообщение об ошибке при вводе
+                $(this).next('.error-message').hide();
             });
         });
     </script>

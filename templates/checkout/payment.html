@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2>Ваша заказ на оплату</h2>
+<p>Сумма к оплате: {{ total|floatformat:0 }}₽</p>
+<p>Для подтверждения оплаты, нажмите кнопку ниже.</p>
+<form method="post" class="order-form">
+    {% csrf_token %}
+    <button type="submit">Перейти к оплате</button>
+</form>
+{% endblock %}

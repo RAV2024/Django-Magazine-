@@ -1,5 +1,5 @@
 import json
-
+import hashlib
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Brand, Category, Product, Cart, CartItem
 from .forms import BrandForm, UserRegisterForm, UserLoginForm
@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 
 def base(request):
@@ -216,8 +217,8 @@ def update_cart_item(request, item_id):
 
 @login_required
 def checkout(request):
-    cart = get_object_or_404(Cart, user=request.user)  # Получаем корзину пользователя
-    total = sum(item.product.price * item.quantity for item in cart.items.all())  # Общая сумма заказа
+    cart = get_object_or_404(Cart, user=request.user)
+    total = sum(item.product.price * item.quantity for item in cart.items.all())
 
     if request.method == 'POST':
 
@@ -227,3 +228,30 @@ def checkout(request):
         return redirect('home')
 
     return render(request, 'checkout/checkout.html', {'cart': cart, 'total': total})
+
+
+@login_required
+def payment(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    total_amount = sum(item.product.price * item.quantity for item in cart.items.all())
+
+    if request.method == "POST":
+        robokassa_login = settings.ROBOX_KASSA_LOGIN
+        robokassa_password1 = settings.ROBOX_KASSA_PASSWORD1
+
+        # Подготовка данных для запроса
+        data = {
+            "MerchantLogin": robokassa_login,
+            "OutSum": total_amount,
+            "InvId": "unique_invoice_id",
+            "Description": "Оплата заказа",
+            "SignatureValue": hashlib.md5(
+                f"{robokassa_login}:{total_amount}:{'unique_invoice_id'}:{robokassa_password1}".encode(
+                    'utf-8')).hexdigest(),
+            "IsTest": 1
+        }
+
+        return redirect(
+            f"https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin={data['MerchantLogin']}&OutSum={data['OutSum']}&InvId={data['InvId']}&Description={data['Description']}&SignatureValue={data['SignatureValue']}&IsTest={data['IsTest']}")
+
+    return render(request, 'checkout/payment.html', {'total': total_amount})
