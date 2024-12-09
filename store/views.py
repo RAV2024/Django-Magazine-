@@ -1,7 +1,7 @@
 import json
 import hashlib
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Brand, Category, Product, Cart, CartItem
+from .models import Brand, Category, Product, Cart, CartItem, Order, OrderItem
 from .forms import BrandForm, UserRegisterForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -221,10 +221,36 @@ def checkout(request):
     total = sum(item.product.price * item.quantity for item in cart.items.all())
 
     if request.method == 'POST':
+        delivery_address = request.POST.get('delivery_address')
+        last_name = request.POST.get('last_name')
+        first_name = request.POST.get('first_name')
+        middle_name = request.POST.get('middle_name', '')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        payment_method = request.POST.get('payment_method')
 
+        order = Order(
+            user=request.user,
+            delivery_address=delivery_address,
+            last_name=last_name,
+            first_name=first_name,
+            middle_name=middle_name,
+            email=email,
+            phone=phone,
+            payment_method=payment_method,
+        )
+        order.save()
+
+        for item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity
+            )
 
         cart.items.all().delete()
         messages.success(request, 'Заказ успешно оформлен!')
+
         return redirect('home')
 
     return render(request, 'checkout/checkout.html', {'cart': cart, 'total': total})
@@ -239,15 +265,15 @@ def payment(request):
         robokassa_login = settings.ROBOX_KASSA_LOGIN
         robokassa_password1 = settings.ROBOX_KASSA_PASSWORD1
 
-        # Подготовка данных для запроса
+        inv_id = "unique_invoice_id"
+
         data = {
             "MerchantLogin": robokassa_login,
             "OutSum": total_amount,
-            "InvId": "unique_invoice_id",
+            "InvId": inv_id,
             "Description": "Оплата заказа",
             "SignatureValue": hashlib.md5(
-                f"{robokassa_login}:{total_amount}:{'unique_invoice_id'}:{robokassa_password1}".encode(
-                    'utf-8')).hexdigest(),
+                f"{robokassa_login}:{total_amount}:{inv_id}:{robokassa_password1}".encode('utf-8')).hexdigest(),
             "IsTest": 1
         }
 
@@ -255,3 +281,11 @@ def payment(request):
             f"https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin={data['MerchantLogin']}&OutSum={data['OutSum']}&InvId={data['InvId']}&Description={data['Description']}&SignatureValue={data['SignatureValue']}&IsTest={data['IsTest']}")
 
     return render(request, 'checkout/payment.html', {'total': total_amount})
+
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'orders/order_history.html', {'orders': orders})
+
+

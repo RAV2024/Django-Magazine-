@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="order-history-header">
+    <h2>История заказов</h2>
+</div>
+
+{% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID заказа</th>
+                <th>Имя получателя</th>
+                <th>Фамилия получателя</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.first_name }}</td>
+                    <td>{{ order.last_name }}</td>
+                    <td>{{ order.created_at|date:"d-m-Y H:i" }}</td>
+                    <td>Оформлен</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас пока нет заказов.</p>
+{% endif %}
+
+{% endblock %}

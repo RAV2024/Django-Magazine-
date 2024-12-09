@@ -1,4 +1,4 @@
-html{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
@@ -17,7 +17,7 @@ html{% extends 'base.html' %}
 
     <div class="checkout-container">
         <div class="order-form-container">
-            <form method="post" class="order-form">
+            <form method="post" class="order-form" id="orderForm">
                 {% csrf_token %}
 
                 <div class="form-group">
@@ -54,7 +54,7 @@ html{% extends 'base.html' %}
                     <label for="payment">Оплата</label>
                     <div>
                         <input type="radio" id="payment_card" name="payment_method" value="card" checked>
-                        <label for="payment_card">Картой</label>
+ <label for="payment_card">Картой</label>
                     </div>
                 </div>
             </form>
@@ -68,11 +68,9 @@ html{% extends 'base.html' %}
                 {% endfor %}
             </ul>
             <h3>Итого: {{ total|floatformat:0 }}₽</h3>
-            <button type="button" class="btn-primary" id="submitBtnSummary" onclick="window.location.href='{% url 'payment' %}'">Подтвердить заказ</button>
+            <button type="button" class="btn-primary" id="submitBtnSummary">Подтвердить заказ</button>
         </div>
     </div>
-
-
 
     <script>
         $(document).ready(function() {
@@ -82,7 +80,7 @@ html{% extends 'base.html' %}
                 showMaskOnHover: false
             });
 
-            $('.order-form').on('submit', function(event) {
+            $('#submitBtnSummary').on('click', function(event) {
                 let allFilled = true;
                 $('input[required]').each(function() {
                     if ($(this).val() === "") {
@@ -93,8 +91,10 @@ html{% extends 'base.html' %}
                     }
                 });
 
-                if (!allFilled) {
-                    event.preventDefault();
+                if (allFilled) {
+                     $('#orderForm').submit();
+                } else {
+                    alert("Пожалуйста, заполните все обязательные поля.");
                 }
             });
 
@@ -108,3 +108,4 @@ html{% extends 'base.html' %}
     <a href="{% url 'products' %}">Перейти к покупкам</a>
 {% endif %}
 {% endblock %}
+

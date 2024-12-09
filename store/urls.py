@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
-from .views import register, user_login, update_cart_item
+from .views import register, user_login, update_cart_item, order_history
 from django.contrib.auth import views as auth_views
 
 
@@ -34,6 +34,8 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
 
     path('payment/', views.payment, name='payment'),
+
+    path('orders/', order_history, name='order_history'),
 ]
 
 if settings.DEBUG:

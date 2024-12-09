@@ -32,14 +32,22 @@
                     <li><a href="{% url 'home' %}">Главная</a></li>
                     <li><a href="{% url 'brands' %}">Бренды</a></li>
                     <li><a href="{% url 'categories' %}">Категории</a></li>
-                    <li><a href="{% url 'products' %}">Товары</a></li>
+                    <!-- <li><a href="{% url 'products' %}">Товары</a></li> -->
                 </ul>
                 <ul class="auth-nav">
                     {% if user.is_authenticated %}
-                        <li>
-                            <a href="{% url 'logout' %}" title="Выйти">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти ({{ user.username }})
+                        <li class="user-menu">
+                            <a href="#" title="Пользователь">
+                                <i class="fa fa-user white-icon" aria-hidden="true"></i>
                             </a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'order_history' %}" title="История заказов">
+                                    <i class="fa fa-box" aria-hidden="true"></i> Заказы
+                                </a>
+                                <a href="{% url 'logout' %}" title="Выйти">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти ({{ user.username }})
+                                </a>
+                            </div>
                         </li>
                     {% else %}
                         <li>
